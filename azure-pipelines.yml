@@ -59,7 +59,11 @@ trigger:
 #   matrix:
 #     Python37:
 #       python.version: "3.7"
-
 steps:
-  - script: echo Misku
-    displayName: "Show my money"
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      
+      echo 'Hello world'
