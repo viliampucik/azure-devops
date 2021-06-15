@@ -81,8 +81,8 @@
 trigger:
 - main
 
-pool:
-  vmImage: 'ubuntu-latest'
+# pool:
+#   name: 
 
 jobs:
 - job: no_checkout
