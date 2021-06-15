@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: mmojcontainer 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mmojcontainer
+  template:
+    metadata:
+      labels:
+        app: mmojcontainer 
+    spec:
+      containers:
+        - name: mmojcontainer 
+          image: mojeacr.azurecr.io/mmojcontainer
+          ports:
+          - containerPort: 80
