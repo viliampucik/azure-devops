@@ -1,45 +1,65 @@
-# Docker
-# Build and push an image to Azure Container Registry
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+# # Docker
+# # Build and push an image to Azure Container Registry
+# # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+# trigger:
+# - main
+
+# resources:
+# - repo: self
+
+# variables:
+#   # Container registry service connection established during pipeline creation
+#   dockerRegistryServiceConnection: '17c97ee3-de2c-4740-b894-9a482c6317fb'
+#   imageRepository: 'viliampucikazuredevops'
+#   containerRegistry: 'mojeacr.azurecr.io'
+#   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+#   tag: '$(Build.BuildId)'
+
+#   # Agent VM image name
+#   vmImageName: 'ubuntu-latest'
+
+# stages:
+# - stage: Build
+#   displayName: Build and push stage
+#   jobs:
+#   - job: Build
+#     displayName: Build
+# #    pool:
+# #      vmImage: $(vmImageName)
+#     steps:
+#      - task: Bash@3
+#        displayName: Bashing
+#        inputs:
+#          targetType: inline
+#          script: echo Misku
+
+#     # - task: Docker@2
+#     #   displayName: Build and push an image to container registry
+#     #   inputs:
+#     #     command: buildAndPush
+#     #     repository: $(imageRepository)
+#     #     dockerfile: $(dockerfilePath)
+#     #     containerRegistry: $(dockerRegistryServiceConnection)
+#     #     tags: |
+#     #       $(tag)
 
 trigger:
-- main
+  - master
 
-resources:
-- repo: self
+pool:
+  vmImage: "ubuntu-latest"
+strategy:
+  matrix:
+    Python37:
+      python.version: "3.7"
 
-variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '17c97ee3-de2c-4740-b894-9a482c6317fb'
-  imageRepository: 'viliampucikazuredevops'
-  containerRegistry: 'mojeacr.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-  tag: '$(Build.BuildId)'
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: "$(python.version)"
+    displayName: "Use Python $(python.version)"
 
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
-stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:
-  - job: Build
-    displayName: Build
-#    pool:
-#      vmImage: $(vmImageName)
-    steps:
-     - task: Bash@3
-       displayName: Bashing
-       inputs:
-         targetType: inline
-         script: echo Misku
-
-    # - task: Docker@2
-    #   displayName: Build and push an image to container registry
-    #   inputs:
-    #     command: buildAndPush
-    #     repository: $(imageRepository)
-    #     dockerfile: $(dockerfilePath)
-    #     containerRegistry: $(dockerRegistryServiceConnection)
-    #     tags: |
-    #       $(tag)
+  - script: |
+      echo Misku
+    displayName: "Install dependencies"
